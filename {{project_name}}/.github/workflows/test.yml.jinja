@@ -1,0 +1,41 @@
+name: CI - Build and Test
+
+defaults:
+  run:
+    shell: bash
+
+on: [pull_request]
+
+jobs:
+
+  build:
+    name: Test package
+    runs-on: {{ '${{ matrix.os }}' }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - 'ubuntu-latest'
+        python-version:
+          - '{{python_verson}}'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup Python
+        uses: actions/setup-python@v4.7.1
+        with:
+          python-version: {{ '${{matrix.python-version}}' }}
+          architecture: x64
+          cache: pip
+
+      - name: Install Poetry and activate virtual env
+        env:
+          python_version: {{ '${{matrix.python-version}}' }}
+        run: pip install poetry==1.4.0
+
+      - name: install packages
+        run: make init_test
+
+      - name: run tests
+        run: poetry run python -m pytest --cov-report term --cov=src/{{package_name}} tests/

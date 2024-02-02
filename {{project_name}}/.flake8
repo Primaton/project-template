@@ -1,0 +1,4 @@
+[flake8]
+max-line-length = 110
+exclude = __init__.py
+ignore = W191,W503

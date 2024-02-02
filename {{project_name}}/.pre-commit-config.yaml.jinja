@@ -1,0 +1,61 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+-   repo: https://github.com/psf/black
+    rev: 23.12.1
+    hooks:
+    -   id: black
+        args: [--safe, --skip-string-normalization]
+        exclude: ^alembic/
+
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-added-large-files
+    -   id: debug-statements
+        language_version: python3
+
+-   repo: https://github.com/PyCQA/flake8
+    rev: 7.0.0
+    hooks:
+    -   id: flake8
+        language_version: python3
+        exclude: ^alembic/
+
+-   repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+        - id: isort
+          name: isort (python)
+          args: [--trailing-comma, -m=VERTICAL_HANGING_INDENT, --profile, black]
+          exclude: ^alembic/
+
+-   repo: https://github.com/asottile/pyupgrade
+    rev: v2.29.0
+    hooks:
+    -   id: pyupgrade
+        args: [--py36-plus]
+        exclude: ^alembic/
+
+-   repo: local
+    hooks:
+    -   id: force-push
+        name: Force Push Not Allowed
+        entry: ./bin/force-push-control
+        stages: [push]
+        language: script
+        always_run: true
+        pass_filenames: false
+
+-   repo: local
+    hooks:
+    -   id: unit-test
+        name: Run Unittest with pytest
+        entry: pytest --cov-report=html --cov={{package_name}} tests/
+        stages: [push]
+        language: system
+        always_run: true
+        pass_filenames: false

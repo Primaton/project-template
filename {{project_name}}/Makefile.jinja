@@ -1,0 +1,29 @@
+POETRY := $(shell command -v poetry 2> /dev/null)
+
+.PHONY: checklist
+checklist:
+	make black lint isort test
+
+.PHONY: test
+test:
+	pytest --cov-report=html --cov-report term-missing --cov=src/{{package_name}} tests/
+
+.PHONY: init_dev
+init_dev:
+	@echo "Creating .venv"
+	@if [ -z $(POETRY) ]; then echo "Poetry could not be found. See https://python-poetry.org/docs/"; exit 2; fi
+	$(POETRY) install --with dev --with test
+	$(POETRY) shell
+	pre-commit install --hook-type pre-commit --hook-type pre-push
+
+.PHONY: init_test
+init_test:
+	@echo "Creating .venv"
+	@if [ -z $(POETRY) ]; then echo "Poetry could not be found. See https://python-poetry.org/docs/"; exit 2; fi
+	$(POETRY) install --with test
+
+.PHONY: init
+init:
+	@echo "Creating .venv"
+	@if [ -z $(POETRY) ]; then echo "Poetry could not be found. See https://python-poetry.org/docs/"; exit 2; fi
+	$(POETRY) install  --sync
