@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "{{project_name}}"
+version = "0.1.0"
+description = ""
+authors = ["{{author}} {{author_email}}"]
+readme = "README.md"
+packages = [{include = "{{package_name}}", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^{{python_verson}}"
+pydantic = "^2.4.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

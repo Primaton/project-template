@@ -1,0 +1,26 @@
+# questions
+project_name:
+    type: str
+    help: What is your project name?
+
+package_name:
+    type: str
+    help: What is the root package name?
+
+author:
+    type: str
+    help: What is the author name?
+
+author_email:
+    type: str
+    help: What is the author email?
+
+python_verson:
+    type: str
+    help: What is the python version?
+    choices:
+        - 3.8
+        - 3.9
+        - 3.10
+        - 3.11
+        - 3.12
