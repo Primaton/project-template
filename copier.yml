@@ -19,6 +19,6 @@ python_verson:
     type: str
     help: What is the python version?
     choices:
-        - 3.10
+        - "3.10"
         - 3.11
         - 3.12
